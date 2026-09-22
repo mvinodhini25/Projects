@@ -1,0 +1,8 @@
+module digitsplit(input [5:0]secs, mins, output [3:0] secs_ones, secs_tens, mins_ones, mins_tens);
+
+assign secs_tens = secs / 10;
+assign secs_ones = secs % 10;
+assign mins_tens = mins / 10;
+assign mins_ones = mins % 10;
+
+endmodule

@@ -1,0 +1,30 @@
+module tb;
+
+reg clk,rst;
+wire [6:0] seg;
+wire [3:0] an;
+
+clock d1(.clk(clk), .rst(rst), .seg(seg), .an(an));
+
+initial begin 
+clk = 0;
+forever #5 clk = ~clk;
+end
+
+initial begin
+rst = 1;
+#20;
+rst = 0;
+
+#2000000;
+$finish;
+
+end
+
+initial begin
+$monitor("time=%0t,clk=%0d,min=%0d,sec=%0d",$time,clk,d1.mins,d1.secs);
+$dumpfile("clock.vcd");
+$dumpvars;
+end
+
+endmodule

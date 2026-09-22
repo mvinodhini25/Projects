@@ -1,0 +1,29 @@
+module clock( input clk, rst, output [6:0] seg, output [3:0] an);
+
+wire tick,refresh_tick;
+
+wire [5:0] secs, mins;
+
+wire [3:0] mins_tens, mins_ones, secs_tens, secs_ones;
+
+wire [6:0] seg_mins_tens, seg_mins_ones, seg_secs_tens, seg_secs_ones;
+
+clkdiv u1(.clk(clk),.rst(rst),.tick(tick),.refresh_tick(refresh_tick));
+
+clkcnt u2(.clk(clk), .rst(rst), .tick(tick), .mins(mins), .secs(secs));
+
+digitsplit u3(.mins(mins), .secs(secs), .mins_tens(mins_tens), .mins_ones(mins_ones), .secs_tens(secs_tens), .secs_ones(secs_ones));
+
+sevenseg u4(.digit(mins_tens), .seg(seg_mins_tens));
+
+sevenseg u5(.digit(mins_ones), .seg(seg_mins_ones));
+
+sevenseg u6(.digit(secs_tens), .seg(seg_secs_tens));
+
+sevenseg u7(.digit(secs_ones), .seg(seg_secs_ones));
+
+mux_seg u8(.clk(clk), .rst(rst), .refresh_tick(refresh_tick), .seg_mins_tens(seg_mins_tens), .seg_mins_ones(seg_mins_ones), .seg_secs_tens(seg_secs_tens), .seg_secs_ones(seg_secs_ones), .an(an), .seg(seg));
+
+endmodule
+
+

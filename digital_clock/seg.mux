@@ -1,0 +1,49 @@
+module mux_seg(input clk, rst, refresh_tick,
+input [6:0] seg_mins_tens, seg_mins_ones, seg_secs_tens, seg_secs_ones, 
+output reg [3:0] an, 
+output reg [6:0]seg);
+
+reg [1:0] digit_select;
+
+always@ (posedge clk) begin
+if(rst) begin
+digit_select <= 2'd0;
+end
+else if(refresh_tick) begin
+digit_select <= digit_select + 1;
+end
+end
+
+always@(*) begin
+case(digit_select)
+2'b00: begin
+an = 4'b1110;
+seg = seg_mins_tens;
+end
+
+2'b01: begin
+an = 4'b1101;
+seg = seg_mins_ones;
+end
+
+2'b10: begin
+an = 4'b1011;
+seg = seg_secs_tens;
+end
+
+2'b11: begin
+an = 4'b0111;
+seg = seg_secs_ones;
+end
+
+default : begin
+an = 4'b1111;
+seg = 7'b1111111;
+end
+
+endcase
+
+end
+
+endmodule
+

@@ -1,0 +1,35 @@
+module clkdiv(input clk, rst, output reg tick, refresh_tick);
+reg [31:0]count;
+reg [15:0] refresh_cnt;
+
+always@(posedge clk) begin
+if(rst) begin
+tick <= 0;
+count <= 0;
+end
+else if(count == 32'd49) begin
+tick <= 1;
+count <= 0;
+end
+else begin
+tick <= 0;
+count <= count + 1;
+end
+end
+
+always@(posedge clk) begin
+if(rst) begin
+refresh_tick <= 0;
+refresh_cnt <= 0;
+end
+else if(refresh_cnt == 16'd5) begin
+refresh_tick <= 1;
+refresh_cnt <= 0;
+end
+else begin
+refresh_tick <= 0;
+refresh_cnt <= refresh_cnt + 1;
+end
+end
+
+endmodule
