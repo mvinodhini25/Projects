@@ -46,19 +46,12 @@ module sobel_edge_top (
     wire clk_serial;
     wire cam_xclk_gen;
 
-    clk_gen u_clk_gen (
-        .clk_in   (sys_clk),
-        .reset    (1'b0),
-        .locked   (locked)
-        // [STUDENT TODO]: Connect the clock outputs from your clk_gen module here
-    );
    clk_gen u_clk_gen (
     .clk_in       (sys_clk),
     .reset        (rst_btn),
     .locked       (locked),
     .clk_display  (clk_display),
-    .clk_serial   (clk_serial),
-    .cam_xclk_gen (cam_xclk_gen)
+    .clk_serial   (clk_serial)
 );
     // Camera sensor master clock output
     assign cam_xclk = cam_xclk_gen;
@@ -96,10 +89,8 @@ module sobel_edge_top (
 
     // [STUDENT BUG]: Bypassed reset synchronizer across clock domains!
     // sys_rst_n is in the display clock domain and can release asynchronously to cam_pclk!
-    wire cam_logic_rst_n = sys_rst_n;
     
     reg [1:0] cam_reset_sync = 0;
-    wire cam_logic_rst_n = cam_reset_sync[1];
     always @(posedge cam_pclk or negedge sys_rst_n) begin
         if (!sys_rst_n)
             cam_reset_sync <= 0;

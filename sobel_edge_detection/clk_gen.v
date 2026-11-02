@@ -32,11 +32,11 @@
 module clk_gen (
     input  wire clk_in,
     input  wire reset,
-    output wire locked
+    output wire locked,
     
     output wire clk_display,
     output wire clk_serial,
-    output wire cam_xclk_gen,
+    output wire cam_xclk_gen
     // ========================================================================
     // [STUDENT TODO]: Declare your required clock output ports below!
     // Example:
